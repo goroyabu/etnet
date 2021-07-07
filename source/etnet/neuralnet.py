@@ -6,12 +6,13 @@ import torch.nn as nn
 import torch.nn.functional as functional
 from .dataset import EtrackDataset
 
+
 class EtrackNet(nn.Module):
     def __init__(self, train=True):
         super(EtrackNet, self).__init__()
 
         self.is_for_training = train
-        self.p = 0.5
+        self.p = 0.5  # ratio of dropout
 
         self.conv1a = nn.Conv2d(1, 16, 5, padding=2)
         self.conv1b = nn.Conv2d(16, 16, 5, padding=2)
@@ -23,10 +24,6 @@ class EtrackNet(nn.Module):
         self.conv3a = nn.Conv2d(32, 64, 5, padding=2)
         self.conv3b = nn.Conv2d(64, 64, 5, padding=2)
 
-        # self.fc1 = nn.Linear(int(dataset.nPix/8) ** 2 * 64, 512)
-        # self.fc2 = nn.Linear(512, 512)
-        # self.fc3_pos_map = nn.Linear(512, dataset.nPix**2)
-        # self.fc3_phi_cos_beta_map = nn.Linear(512, dataset.nBinPhi * dataset.nBinCos)
         self.fc1 = nn.Linear(int(EtrackDataset.N_PIXELS_1D / 8) ** 2 * 64, 512)
         self.fc2 = nn.Linear(512, 512)
         self.fc3_pos_map = nn.Linear(512, EtrackDataset.N_PIXELS_2D)
