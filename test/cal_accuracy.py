@@ -133,20 +133,20 @@ def estimation(model_path, outfilename, data_path, args):
         "true_pos_map;X;Y",
         EtrackDataset.N_PIXELS_1D,
         0,
-        EtrackDataset.N_PIXELS_1D,
+        1,
         EtrackDataset.N_PIXELS_1D,
         0,
-        EtrackDataset.N_PIXELS_1D,
+        1,
     )
     est_pos_map = TH2D(
         "est_pos_map",
         "est_pos_map;X;Y",
         EtrackDataset.N_PIXELS_1D,
         0,
-        EtrackDataset.N_PIXELS_1D,
+        1,
         EtrackDataset.N_PIXELS_1D,
         0,
-        EtrackDataset.N_PIXELS_1D,
+        1,
     )
     true_phi_map = TH1D(
         "true_phi_map",

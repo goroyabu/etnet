@@ -80,8 +80,6 @@ class EtrackDataset(torch.utils.data.Dataset):
             index_pos_map_y = EtrackDataset.pos_norm_to_index(ini_pos_y_norm)
             self.ini_pos_map[i_num][index_pos_map_y][index_pos_map_x] = 1.0
 
-            # phi_normalized = 0.5 * (self.ini_phi_norm[i_num] + 1)  # [-1,1] -> [0,1]
-            # index_phi = EtrackDataset.phi_norm_to_index(phi_normalized)
             ini_phi_norm = self.ini_phi_norm[i_num]
             index_phi = EtrackDataset.phi_norm_to_index(ini_phi_norm)
             self.ini_phi_map[i_num][index_phi] = 1.0
@@ -133,18 +131,17 @@ class EtrackDataset(torch.utils.data.Dataset):
     #     return self.eventID[idx][0]
 
     @classmethod
-    def index_to_pos(cls, index):  # [0,N_PIXELS_1D-1] -> [-1,1]
+    def index_to_pos(cls, index):  # [0,N_PIXELS_1D-1] -> [0,1]
         if cls.N_PIXELS_1D - 1 <= index:
             index = cls.N_PIXELS_1D - 1
         elif index < 0:
             index = 0
-        pos = float((index + 0.5) / cls.N_PIXELS_1D) * 2.0 - 1.0
+        pos = float((index+0.5) / cls.N_PIXELS_1D)
         return pos
-        # return index + 0.5
 
     @classmethod
-    def pos_norm_to_index(cls, pos):  # [-1,1] -> [0,N_PIXELS_1D-1]
-        index = int((pos + 1) * 0.5 * (cls.N_PIXELS_1D))
+    def pos_norm_to_index(cls, pos):  # [0,1] -> [0,N_PIXELS_1D-1]
+        index = int(pos * cls.N_PIXELS_1D)
         # index = int(pos * cls.N_PIXELS_1D)
         if cls.N_PIXELS_1D - 1 <= index:
             return cls.N_PIXELS_1D - 1
